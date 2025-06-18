@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
+import Login from "./pages/Login";
+
 const App = () => {
   return (
     <div>
-      <Button className="m-2" variant="default">
-        Button
-      </Button>
+      <Login />
     </div>
   );
 };
