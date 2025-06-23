@@ -10,7 +10,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
+import {
+  useLoginUserMutation,
+  useRegisterUserMutation,
+} from "@/features/api/authApi";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const Login = () => {
   const [signupInput, setSignupInput] = useState({
@@ -22,6 +28,25 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const [
+    registerUser,
+    {
+      data: registerData,
+      error: registerError,
+      isLoading: registerIsLoading,
+      isSuccess: registerIsSuccess,
+    },
+  ] = useRegisterUserMutation();
+  const [
+    loginUser,
+    {
+      data: loginData,
+      error: loginError,
+      isLoading: loginIsLoading,
+      isSuccess: loginIsSuccess,
+    },
+  ] = useLoginUserMutation();
 
   const changeInputHandler = (e, type) => {
     e.preventDefault();
@@ -40,11 +65,33 @@ const Login = () => {
   };
 
   // const handleform
-  const handleRegistration = (type) => {
+  const handleRegistration = async (type) => {
     const inputData = type === "signup" ? signupInput : loginInput;
-    console.log(inputData);
+    const action = type === "signup" ? registerUser : loginUser;
+    await action(inputData);
   };
 
+  useEffect(() => {
+    if (registerIsSuccess && registerData) {
+      toast.success("Registration successful! You can now login.");
+    }
+    if (registerError) {
+      toast.error(`Registration failed: ${registerError.data.message}`);
+    }
+    if (loginIsSuccess && loginData) {
+      toast.success("Login successful!");
+    }
+    if (loginError) {
+      toast.error(`Login failed: ${loginError.data.message}`);
+    }
+  }, [
+    loginIsLoading,
+    registerIsLoading,
+    loginData,
+    registerData,
+    loginError,
+    registerError,
+  ]);
   return (
     <div className="flex items-center justify-center w-full h-screen bg-gray-100">
       <Tabs defaultValue="signup" className="w-full max-w-md">
@@ -67,7 +114,7 @@ const Login = () => {
                   <Label htmlFor="tabs-demo-name">Name</Label>
                   <Input
                     type="text"
-                    required="true"
+                    required={true}
                     name="name"
                     value={signupInput.name}
                     placeholder="Enter your name"
@@ -80,7 +127,7 @@ const Login = () => {
                     type="email"
                     name="email"
                     value={signupInput.email}
-                    required="true"
+                    required={true}
                     placeholder="Enter your email"
                     onChange={(e) => changeInputHandler(e, "signup")}
                   />
@@ -92,17 +139,25 @@ const Login = () => {
                     name="password"
                     value={signupInput.password}
                     placeholder="Enter your password"
-                    required="true"
+                    required={true}
                     onChange={(e) => changeInputHandler(e, "signup")}
                   />
                 </div>
               </CardContent>
               <CardFooter>
                 <Button
+                  disabled={registerIsLoading}
                   onClick={() => handleRegistration("signup")}
                   className="w-full cursor-pointer"
                 >
-                  Signup
+                  {registerIsLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                      wait...
+                    </>
+                  ) : (
+                    "Signup"
+                  )}
                 </Button>
               </CardFooter>
             </Card>
@@ -126,7 +181,7 @@ const Login = () => {
                     name="email"
                     value={loginInput.email}
                     placeholder="Enter your email"
-                    required="true"
+                    required={true}
                     onChange={(e) => changeInputHandler(e, "login")}
                   />
                 </div>
@@ -137,17 +192,25 @@ const Login = () => {
                     name="password"
                     value={loginInput.password}
                     placeholder="Enter your password"
-                    required="true"
+                    required={true}
                     onChange={(e) => changeInputHandler(e, "login")}
                   />
                 </div>
               </CardContent>
               <CardFooter>
                 <Button
+                  disabled={loginIsLoading}
                   onClick={() => handleRegistration("login")}
                   className="w-full cursor-pointer"
                 >
-                  Login
+                  {loginIsLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                      wait...
+                    </>
+                  ) : (
+                    "Login"
+                  )}
                 </Button>
               </CardFooter>
             </Card>
