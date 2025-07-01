@@ -1,6 +1,7 @@
 import DarkMode from "@/DarkMode";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Menu, School } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
@@ -24,6 +25,7 @@ import {
 
 const Navbar = () => {
   const user = true;
+
   return (
     <div className="h-16 dard:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10">
       {/* desktop */}
@@ -39,7 +41,7 @@ const Navbar = () => {
               <DropdownMenuTrigger asChild>
                 <Avatar>
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
+                    src="https://avatars.githubusercontent.com/u/71966035?v=4"
                     alt="@shadcn"
                   />
                   <AvatarFallback>CN</AvatarFallback>
@@ -48,7 +50,9 @@ const Navbar = () => {
               <DropdownMenuContent className="w-56" align="start">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>My learning</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to="my-learning">My learning</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem>Edit Profile</DropdownMenuItem>
                   <DropdownMenuItem>Settings</DropdownMenuItem>
                 </DropdownMenuGroup>
@@ -80,6 +84,7 @@ const Navbar = () => {
 export default Navbar;
 
 const MobileNavbar = () => {
+  const role = "instructor";
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -102,12 +107,13 @@ const MobileNavbar = () => {
           <span>Edit Profile</span>
           <p>Log out</p>
         </nav>
-        <SheetFooter>
-          <Button type="submit">Save changes</Button>
-          <SheetClose asChild>
-            <Button variant="outline">Close</Button>
-          </SheetClose>
-        </SheetFooter>
+        {role === "instructor" && (
+          <SheetFooter>
+            <SheetClose asChild>
+              <Button type="submit">Dashboard</Button>
+            </SheetClose>
+          </SheetFooter>
+        )}
       </SheetContent>
     </Sheet>
   );
