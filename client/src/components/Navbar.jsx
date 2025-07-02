@@ -53,7 +53,10 @@ const Navbar = () => {
                   <DropdownMenuItem>
                     <Link to="my-learning">My learning</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>Edit Profile</DropdownMenuItem>
+                  <DropdownMenuItem>
+
+                    <Link to="profile">Edit Profile</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem>Settings</DropdownMenuItem>
                 </DropdownMenuGroup>
 
