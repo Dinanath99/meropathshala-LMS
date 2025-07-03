@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import {User} from "../model/user.model.js";
+import { User } from "../model/user.model.js";
 import { generateToken } from "../utils/generateToken.js";
 export const register = async (req, res) => {
   try {
@@ -75,5 +75,32 @@ export const login = async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "Internal server error" });
+  }
+};
+
+export const logout = (req, res) => {
+  try {
+    return res
+      .cookie("token", "", {
+        maxAge: 0, // Set secure flag in production
+      })
+      .status(200)
+      .json({ success: true, message: "Logged out successfully" });
+  } catch (error) {
+    console.error("Logout error:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to logout" });
+  }
+};
+
+//getUseProfile Controller
+export const getUserProfile = async (req, res) => {
+  try {
+  } catch (error) {
+    console.error("Get user profile error:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to load user" });
   }
 };

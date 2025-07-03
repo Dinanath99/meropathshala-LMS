@@ -9,7 +9,7 @@ const MainLayout = () => {
       <div className="pt-16">
         <Outlet />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

@@ -19,7 +19,7 @@ const MyLearning = () => {
           </div>
         )} */}
 
-        {isLoading ? (
+        {isLoading ? ( 
           <MyLearningSkeleton />
         ) : MyLearningCourses.length === 0 ? (
           <p>You are not enrolled in any course.</p>
