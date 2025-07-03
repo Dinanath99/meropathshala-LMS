@@ -97,6 +97,12 @@ export const logout = (req, res) => {
 //getUseProfile Controller
 export const getUserProfile = async (req, res) => {
   try {
+    const userId = req.id;
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User Profile not found" });
+    }
+    return res.status(200).json({ success: true, user });
   } catch (error) {
     console.error("Get user profile error:", error);
     return res

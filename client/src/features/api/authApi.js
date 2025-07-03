@@ -31,9 +31,19 @@ export const authApi = createApi({
         console.error("Error during query:", error);
       }
     },
+    loadUser: builder.query({
+      query: () => ({
+        url: "/profile",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useRegisterUserMutation, useLoginUserMutation } = authApi;
+export const {
+  useRegisterUserMutation,
+  useLoginUserMutation,
+  useLoadUserQuery,
+} = authApi;
 export const authApiReducer = authApi.reducer;
 export const authApiActions = authApi.endpoints;
