@@ -1,38 +1,58 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Star } from "lucide-react";
 
 const Course = () => {
   return (
-    <Card className="overflow-hidden rounded-lg dark:bg-gray-800 bg-white shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-      <div className="relative">
-        <img
-          src="https://img-c.udemycdn.com/course/750x422/5528078_095a_8.jpg"
-          alt="course"
-          className="w-full h-36 object-cover rounded-t-lg"
-        />
+    <Card className="h-full w-full group rounded-xl bg-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-0">
+
+      {/*  */}
+      <div className="relative rounded-t-xl overflow-hidden">
+        <div className="clip-diagonal">
+          <img
+            src="https://img-c.udemycdn.com/course/750x422/5528078_095a_8.jpg"
+            alt="course"
+            className="w-full h-48 object-cover"
+          />
+        </div>
+        <Badge className="absolute top-3 left-3 bg-gray-500 text-white text-xs px-3 py-1 rounded-full">
+          Bestseller
+        </Badge>
       </div>
-      <CardContent className="px-5 py-4 space-y-3">
-        <h1 className="hover:underline font-bold text-lg truncate">
-          Nextjs complete course in Hindi 2025
-        </h1>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Avatar className="h-8 w-8">
+
+      <CardContent className="p-5 space-y-3">
+        <h3 className="text-xl font-semibold text-gray-800 group-hover:text-gary-600 transition-colors truncate">
+          Next.js Complete Course in Hindi 2025
+        </h3>
+
+        <div className="flex items-center gap-2 text-yellow-400">
+          {[...Array(4)].map((_, i) => (
+            <Star key={i} className="h-4 w-4 fill-yellow-400" />
+          ))}
+          <Star className="h-4 w-4" />
+          <span className="text-sm text-gray-600 ml-2">(4.0)</span>
+        </div>
+
+        <div className="flex items-center justify-between text-sm text-gray-600">
+          <div className="flex items-center gap-2">
+            <Avatar className="h-6 w-6">
               <AvatarImage
                 src="https://avatars.githubusercontent.com/u/71966035?v=4"
                 alt="@shadcn"
               />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <h1 className="font-medium text-sm">Dinanath Mukhiya</h1>
+            <span>Dinanath Mukhiya</span>
           </div>
-          <Badge className="bg-blue-600 text-white px-2 py-1 text-xs rounded-full">
+          <span>3h 30m</span>
+        </div>
+
+        <div className="flex items-center justify-between mt-4">
+          <span className="text-lg font-bold text-gray-600">Rs 499</span>
+          <Badge className="gray-100 tegray-700 px-2 py-1 text-xs rounded-full">
             Advance
           </Badge>
-        </div>
-        <div className="text-lg font-bold">
-          <span>Rs 499</span>
         </div>
       </CardContent>
     </Card>

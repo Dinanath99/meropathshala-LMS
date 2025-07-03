@@ -1,42 +1,57 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { useKeenSlider } from "keen-slider/react";
+import "keen-slider/keen-slider.min.css";
+import { useEffect, useRef } from "react";
 import Course from "./Course";
 
 const courses = [1, 2, 3, 4, 5, 6];
+
 const Courses = () => {
-  const isLoading = false;
+  const [sliderRef, slider] = useKeenSlider({
+    loop: true,
+    slides: {
+      perView: 1.2,
+      spacing: 15,
+    },
+    breakpoints: {
+      "(min-width: 640px)": {
+        slides: { perView: 2.2, spacing: 20 },
+      },
+      "(min-width: 1024px)": {
+        slides: { perView: 3.2, spacing: 25 },
+      },
+    },
+  });
+
+  useEffect(() => {
+    let interval;
+    if (slider) {
+      interval = setInterval(() => {
+        slider.current.next();
+      }, 3000);
+    }
+    return () => clearInterval(interval);
+  }, [slider]);
+
   return (
-    <div id="courses" className="bg-gray50">
-      <div className="max-w-7xl mx-auto p-6">
-        <h2 className="font-bold text-3xl text-center mb-10">Our Courses</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {isLoading
-            ? Array.from({ length: 8 }).map((_, index) => (
-                <CourseSkeleton key={index} />
-              ))
-            : courses.map((course, index) => <Course key={index} />)}
+    <section id="courses" className="bg-gray-50 py-16">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-extrabold text-gray-800 mb-4">Our Courses</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Choose from our wide range of carefully curated courses that help you skill up fast and affordably.
+          </p>
+        </div>
+
+        <div ref={sliderRef} className="keen-slider">
+          {courses.map((course, index) => (
+            <div className="keen-slider__slide overflow-visible h-auto" key={index}>
+              <Course />
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
 export default Courses;
-
-const CourseSkeleton = () => {
-  return (
-    <div className="bg-white shadow-md hover:shadow-lg transition-shadow rounded-lg overflow-hidden">
-      <Skeleton className="w-full h-36" />
-      <div className="px-5 py-4 space-y-3">
-        <Skeleton className="h-6 w-3/4" />
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Skeleton className="h-6 w-6 rounded-full" />
-            <Skeleton className="h-4 w-16" />
-          </div>
-          <Skeleton className="h-4 w-16" />
-        </div>
-        <Skeleton className="h-4 w-1/4" />
-      </div>
-    </div>
-  );
-};
