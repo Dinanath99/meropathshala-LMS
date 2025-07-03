@@ -6,6 +6,8 @@ import Courses from "./pages/student/Courses";
 import HeroSection from "./pages/student/HeroSection";
 import MyLearning from "./pages/student/MyLearning";
 import Profile from "./pages/student/Profile";
+import AboutUs from "./components/AboutUS";
+import Stats from "./components/Stats";
 
 const appRouter = createBrowserRouter([
   {
@@ -18,6 +20,8 @@ const appRouter = createBrowserRouter([
           <>
             <HeroSection />
             <Courses />
+            <AboutUs />
+            <Stats />
           </>
         ),
       },
